@@ -25,7 +25,6 @@ echo Determing public node ip...
 export PUBLICNODEIP=$(./findpublic_ips.sh | head -1 | sed "s/.$//" )
 echo Public node ip: $PUBLICNODEIP 
 echo ------------------
-
 if [ ${#PUBLICNODEIP} -le 6 ] ;
 then
 	echo Can not find public node ip. JQ in path?
@@ -38,7 +37,6 @@ cp versions/ui-config.json ui-config.tmp
 sed -ie "s@PUBLIC_SLAVE_ELB_HOSTNAME@$PUBLICELBHOST@g; s@PUBLICNODEIP@$PUBLICNODEIP@g;"  ui-config.tmp
 rm ui-config.tmpe 
 dcos marathon group add config.tmp
-rm config.tmp config.tmpe
 
 until $(curl --output /dev/null --silent --head --fail http://$PUBLICNODEIP:10000); do
     printf '.'
@@ -51,3 +49,4 @@ dcos marathon app add spark-b.json
 
 sleep 10
 ./permissions.sh ./config.tmp
+rm config.tmp config.tmpe
