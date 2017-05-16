@@ -50,4 +50,4 @@ dcos marathon app add spark-a.json
 dcos marathon app add spark-b.json
 
 sleep 10
-./permissions.sh
+./permissions.sh ./config.tmp
